@@ -1,2 +1,3 @@
-# react-todo
-obligatory react todo app.
+# react TODO app
+
+A todo-app for learning purposes.
