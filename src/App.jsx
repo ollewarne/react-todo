@@ -3,19 +3,33 @@ import './App.css'
 
 function App() {
 
+    const [todos, setTodos] = useState([])
+    const inputValue = useRef("")
+
+    const generateId = () => {
+        return Math.random().toString(36).substring(2, 6);
+    };
+
+    function addTodo() {
+        const todoId = generateId();
+        const todo = {id: todoId, text: inputValue.current}
+        setTodos([todo, ...todos])
+    }
+
     return (
-        <TodoList />
+        <>
+            <TodoList todos={todos} setTodos={setTodos} />
+            <div>
+                <input type="text" onChange={(e) => inputValue.current = e.target.value} />
+                <button onClick={addTodo}>Add Todo</button>
+            </div>
+        </>
     )
 }
 
 export default App
 
-function TodoList() {
-    const [todos, setTodos] = useState([
-        { id: 1, text: 'Item 1' },
-        { id: 2, text: 'Item 2' },
-        { id: 3, text: 'Item 3' }
-    ])
+function TodoList({ todos = [], setTodos = () => { } }) {
 
     const draggedIndexRef = useRef(null);
 
@@ -38,7 +52,7 @@ function TodoList() {
         const dragIndex = draggedIndexRef.current;
 
         if (dragIndex === dropIndex || dragIndex === null) return;
-        
+
         const newTodos = [...todos];
         const [removed] = newTodos.splice(dragIndex, 1);
         newTodos.splice(dropIndex, 0, removed);
