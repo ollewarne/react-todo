@@ -1,0 +1,17 @@
+.todoItem {
+    list-style: none;
+    padding: 1em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 1em;
+    background-color: skyblue;
+    color: black;
+}
+
+.todoList {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
