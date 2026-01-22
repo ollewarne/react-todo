@@ -65,14 +65,14 @@ function todoReducer(state, action) {
 
 function TodoList() {
     const [state, dispatch] = useReducer(todoReducer, initialState);
-    const [inputValue, setInputValue] = useState('');
+    const inputRef = useRef(null)
+    const draggedIndexRef = useRef(null);
 
     function handleAdd() {
-        dispatch({ type: "ADD_TODO", payload: inputValue });
-        setInputValue("");
+        dispatch({ type: "ADD_TODO", payload: inputRef.current.value });
+        inputRef.current.value = "";
     }
 
-    const draggedIndexRef = useRef(null);
 
     function handleDragStart(e, index) {
         draggedIndexRef.current = index;
@@ -106,10 +106,10 @@ function TodoList() {
     return (
         <div>
             <h2>My todos</h2>
-            <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="lägg till todo" />
+            <input type="text" ref={inputRef} placeholder="lägg till todo" />
             <button onClick={() => handleAdd()}>Add Todo</button>
             <ul className={styles.todoList}>
-                <button onClick={() => dispatch({type: "TOGGLE_DRAGGABLE"})}>{state.draggable ? "Disable" : "Enable"} Drag & Drop</button>
+                <button onClick={() => dispatch({ type: "TOGGLE_DRAGGABLE" })}>{state.draggable ? "Disable" : "Enable"} Drag & Drop</button>
                 {
                     state.todos.map((todo, index) => (
                         <li key={todo.id}
